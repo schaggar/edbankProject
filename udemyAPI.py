@@ -1,18 +1,20 @@
 from textwrap import indent
 from requests.auth import HTTPBasicAuth
-#from dotenv import load_dotenv
+from dotenv import load_dotenv
+from decouple import config
 import os 
 import requests
 import json
 
-# load_dotenv()
-# TWILIO_ACCOUNT_SID = os.environ.get("TWILIO_ACCOUNT_SID")
-# TWILIO_ACCOUNT_TOKEN = os.environ.get("TWILIO_ACCOUNT_TOKEN")
+load_dotenv()
+UDEMY_ACCOUNT_SID = config('UDEMY_ACCOUNT_SID')
+UDEMY_ACCOUNT_TOKEN = config('UDEMY_ACCOUNT_TOKEN')
 
 page_number = 1
 merged_title = []
 new_results = True
-auth = HTTPBasicAuth("IS7xRdMNfGSmTBrXmnmelUSmN3nK7zEo1qgQ6gNt", "PBguBVWa6JjkTtcwN0Grjas2Or7Ii6nN9amvmjCSjJsh3JHGQyLkBodwfYUWTgkXdjSeP02iyOIjyEOw6tMKG3mUlybh9fyrSONhiB0ga7vWSR6HI3crq84HEYATk8jW")
+
+auth = HTTPBasicAuth(UDEMY_ACCOUNT_SID, UDEMY_ACCOUNT_TOKEN)
 
 while new_results:
     api_endpoint = f'https://www.udemy.com/api-2.0/courses/?page={page_number}&page_size=100'
@@ -30,7 +32,7 @@ while new_results:
     for title in employee_dict["results"]:
         merged_title.append(title['title'])
     page_number += 1
-    if page_number == 5:
+    if page_number == 2:
         break
 
 #print(merged_title)
